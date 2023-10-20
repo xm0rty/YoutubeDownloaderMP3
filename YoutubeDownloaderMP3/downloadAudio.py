@@ -14,7 +14,7 @@ try:
         out_file = audio.download("Audios/")
         # save the file
         base, ext = os.path.splitext(out_file)
-        new_file = base + "Audio.mp3"
+        new_file = base + ".mp3"
         os.rename(out_file, new_file)
 
     print("Done! Audio Downloaded")
