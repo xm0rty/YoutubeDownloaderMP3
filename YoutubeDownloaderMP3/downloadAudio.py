@@ -1,26 +1,25 @@
 from pytube import YouTube
-import os
 
-# Get the video
-
-ytVideos = str(input("Enter links separated by coma if multiple: ")).split(",")
-try:
-    for videoLink in ytVideos:
-        ytVideo = YouTube(videoLink)
-
-        # Downloads the audio
-        audio = ytVideo.streams.filter(only_audio=True).get_audio_only()
-        # download the file
-        out_file = audio.download("Audios/")
-        # save the file
-        base, ext = os.path.splitext(out_file)
-        new_file = base + ".mp3"
-        os.rename(out_file, new_file)
-
-    print("Done! Audio Downloaded")
-    input("You can now close this window")
-
-except:
-    print("error")
-    input("Please close this window and retry")
-    exit()
+userContinue = True
+while(userContinue):
+    ytVideos = str(input("Enter links separated by comma if multiple (ex: https://youtu.be/*,https://youtu.be/*): ")).split(",")
+    try:
+        for videoLink in ytVideos:
+            ytVideo = YouTube(videoLink)
+            # Downloads the audio
+            audio = ytVideo.streams.filter(only_audio=True).first().download("Audios/",filename=ytVideo.title + ".mp3")
+            print(f"Done! {ytVideo.title} has been downloaded")
+        while(True):
+            print("Do you want to download more? (Y/N)")
+            userInput = input().upper()
+            if(userInput!='Y' and userInput!='N'):
+                print("Wrong Input")
+            elif(userInput=='N'):
+                userContinue = False
+                break
+            elif(userInput=='Y'):
+                break
+    except:
+        print("error")
+        input("Please close this window and retry")
+        exit()
